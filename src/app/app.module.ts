@@ -2,15 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { MyPluginComponent } from './my-plugin/my-plugin.component';
+import { NgxPluginsModule } from 'ngx-plugins';
+import { MyPluginDataComponent } from './my-plugin-data/my-plugin-data.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
+  declarations: [AppComponent, MyPluginComponent, MyPluginDataComponent],
+  imports: [BrowserModule, NgxPluginsModule],
+  entryComponents: [MyPluginComponent, MyPluginDataComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

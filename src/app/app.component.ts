@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ngx-plugins-app';
+  myData: Date = new Date();
+  intervalHandle: any;
+
+  ngOnInit(): void {
+    this.intervalHandle = setInterval(() => {
+      this.myData = new Date();
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalHandle);
+  }
 }
