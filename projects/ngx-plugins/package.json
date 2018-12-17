@@ -1,6 +1,7 @@
 {
   "name": "ngx-plugins",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "description": "Angular Plugin library for loading dynamic components",
   "peerDependencies": {
     "@angular/common": "^7.1.0",
     "@angular/core": "^7.1.0"
