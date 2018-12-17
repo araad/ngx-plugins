@@ -7,7 +7,7 @@ import { PluginComponent } from './plugin.component';
 @NgModule({
   declarations: [PluginHostDirective, PluginComponent],
   imports: [CommonModule, PortalModule],
-  entryComponents: [PluginComponent],
-  exports: [PluginHostDirective]
+  exports: [PluginHostDirective],
+  entryComponents: [PluginComponent]
 })
 export class NgxPluginsModule {}

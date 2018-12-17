@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { PluginConfig } from './plugin.config';
 import { PluginType } from './plugin.type';
 

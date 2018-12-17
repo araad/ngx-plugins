@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export const NGX_PLUGIN_DATA = new InjectionToken<{}>('NGX_PLUGIN_DATA');
+export const NGX_PLUGIN_DATA = new InjectionToken<any>('NGX_PLUGIN_DATA');
 
 @Component({
   selector: 'ngx-plugin',
@@ -39,7 +39,7 @@ export class PluginComponent implements OnInit {
     );
   }
 
-  createInjector(data): PortalInjector {
+  createInjector(data: any): PortalInjector {
     const injectorTokens = new WeakMap();
     injectorTokens.set(NGX_PLUGIN_DATA, data);
     return new PortalInjector(this._injector, injectorTokens);
