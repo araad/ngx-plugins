@@ -1,27 +1,60 @@
-# NgxPluginsApp
+# ngx-plugins
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.1.
+Create components that can be dynamically loaded at runtime into a "plugin host". A plugin host is any element that has the ```ngxPluginHost``` directive which will be used as the location to render the plugin component.
 
-## Development server
+This library is built on top of the [Portal](https://material.angular.io/cdk/portal/overview) package from @angular/cdk.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Installation
+```
+npm install --save ngx-plugins
+```
 
-## Code scaffolding
+## Usage
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+#### Create a plugin
+```javascript
+import { Component, Inject, OnInit } from '@angular/core';
+import { NGX_PLUGIN_DATA, Plugin } from 'ngx-plugins';
+import { Observable } from 'rxjs';
 
-## Build
+@Component({
+  selector: 'ngx-my-plugin-with-data',
+  templateUrl: './my-plugin-with-data.component.html',
+  styleUrls: ['./my-plugin-with-data.component.scss']
+})
+@Plugin({
+  selector: 'ngx-my-plugin-with-data',
+  hostNames: ['MyPluginHost']
+})
+export class MyPluginWithDataComponent implements OnInit {
+  constructor(@Inject(NGX_PLUGIN_DATA) public data: Observable<Date>) {}
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+  ngOnInit() {}
+}
+```
 
-## Running unit tests
+```html
+<p>
+  my-plugin-with-data works! Data: {{data | async | date:'medium'}}
+</p>
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+You must add the plugin component to the declaring module's ```entryComponents```.
 
-## Running end-to-end tests
+#### Create a plugin host
+From the component where you want to host plugins
+```html
+<div>
+  <p>Plugins will show underneath:</p>
+  <ng-template
+    ngxPluginHost
+    hostName="MyPluginHost"
+    [pluginData]="myData"
+  ></ng-template>
+</div>
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```
 
-## Further help
+A plugin host can host multiple plugins, just add the host to the ```hostName``` list of all the plugins.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+A plugin can be hosted in several hosts, just add the names of all the hosts in the plugin's ```hostName``` list.
