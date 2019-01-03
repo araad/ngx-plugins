@@ -21,7 +21,12 @@ export const NGX_PLUGIN_DATA = new InjectionToken<any>('NGX_PLUGIN_DATA');
   <ng-container *ngIf="canRender | async">
       <ng-template [cdkPortalOutlet]="portalInstance"></ng-template>
     </ng-container>
-  `
+  `,
+  styles: [`
+  :host {
+    width: 100%;
+  }
+  `]
 })
 export class PluginComponent implements OnInit {
   portalInstance: Portal<any>;
