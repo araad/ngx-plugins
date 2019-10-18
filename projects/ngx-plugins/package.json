@@ -1,6 +1,6 @@
 {
   "name": "ngx-plugins",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Angular Plugin library for loading dynamic components",
   "license": "MIT",
   "repository": {
