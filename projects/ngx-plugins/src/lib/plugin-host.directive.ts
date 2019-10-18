@@ -11,6 +11,7 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
 import { PluginComponent } from './plugin.component';
 import { PluginRegistry } from './plugin.registry';
 
@@ -48,24 +49,16 @@ export class PluginHostDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.init = true;
+    this.loadAllPlugins();
 
-    let plugins = PluginRegistry.getPlugins(this.hostName);
-    if (this.reverse) {
-      plugins = plugins.reverse();
-    }
-    if (plugins.length > 0) {
-      plugins.forEach(plugin => {
-        const sel = plugin.selector;
-        if (
-          !this.componentRefMap.has(sel) ||
-          this.componentRefMap.get(sel) === null
-        ) {
-          this.componentRefMap.set(sel, null);
-          this.load(plugin);
-        }
+    PluginRegistry.pluginRegistered$
+      .pipe(
+        filter(hostNames => hostNames.indexOf(this.hostName) >= 0),
+        debounceTime(25)
+      )
+      .subscribe(() => {
+        this.loadAllPlugins();
       });
-    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -87,6 +80,27 @@ export class PluginHostDirective implements OnInit, OnDestroy {
     this.pluginDataSubscribers.forEach(sub => {
       sub.unsubscribe();
     });
+  }
+
+  loadAllPlugins() {
+    let plugins = PluginRegistry.getPlugins(this.hostName);
+
+    if (this.reverse) {
+      plugins = plugins.reverse();
+    }
+
+    if (plugins.length > 0) {
+      plugins.forEach(plugin => {
+        const sel = plugin.selector;
+        if (
+          !this.componentRefMap.has(sel) ||
+          this.componentRefMap.get(sel) === null
+        ) {
+          this.componentRefMap.set(sel, null);
+          this.load(plugin);
+        }
+      });
+    }
   }
 
   load(plugin) {
