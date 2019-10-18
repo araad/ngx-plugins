@@ -1,8 +1,11 @@
+import { Subject } from 'rxjs';
 import { PluginConfig } from './plugin.config';
 import { PluginType } from './plugin.type';
 
 export class PluginRegistry {
   private static plugins = new Map<string, PluginType>();
+  private static pluginRegistered = new Subject<Array<string>>();
+  public static pluginRegistered$ = PluginRegistry.pluginRegistered.asObservable();
 
   static registerPlugin(config: PluginConfig, component) {
     if (this.plugins.has(config.selector)) {
@@ -13,6 +16,7 @@ export class PluginRegistry {
     pluginType.component = component;
 
     this.plugins.set(config.selector, pluginType);
+    this.pluginRegistered.next(config.hostNames);
   }
 
   static getPlugins(hostName: string) {
