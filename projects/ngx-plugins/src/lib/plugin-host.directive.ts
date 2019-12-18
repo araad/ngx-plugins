@@ -90,16 +90,30 @@ export class PluginHostDirective implements OnInit, OnDestroy {
     }
 
     if (plugins.length > 0) {
-      plugins.forEach(plugin => {
-        const sel = plugin.selector;
-        if (
-          !this.componentRefMap.has(sel) ||
-          this.componentRefMap.get(sel) === null
-        ) {
-          this.componentRefMap.set(sel, null);
-          this.load(plugin);
-        }
-      });
+      let loadOrder = PluginRegistry.getLoadOrder(this.hostName);
+      if (loadOrder) {
+        loadOrder.forEach(sel => {
+          let plugin = plugins.find(x => x.selector === sel);
+          if (plugin) {
+            this.checkAndLoadPlugin(sel, plugin);
+          }
+        });
+      } else {
+        plugins.forEach(plugin => {
+          const sel = plugin.selector;
+          this.checkAndLoadPlugin(sel, plugin);
+        });
+      }
+    }
+  }
+
+  checkAndLoadPlugin(sel: string, plugin) {
+    if (
+      !this.componentRefMap.has(sel) ||
+      this.componentRefMap.get(sel) === null
+    ) {
+      this.componentRefMap.set(sel, null);
+      this.load(plugin);
     }
   }
 

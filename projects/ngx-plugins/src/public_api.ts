@@ -6,3 +6,4 @@ export * from './lib/ngx-plugins.module';
 export * from './lib/plugin-host.directive';
 export * from './lib/plugin.component';
 export * from './lib/plugin.metadata';
+export { registerPluginLoadOrder } from './lib/plugin.registry';
