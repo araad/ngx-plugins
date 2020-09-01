@@ -19,7 +19,7 @@ export class PluginRegistry {
     hostNames: Array<string>,
     pluginSelectors: Array<string>
   ) {
-    hostNames.forEach(host => {
+    hostNames.forEach((host) => {
       this.loadOrderMap.set(host, pluginSelectors);
     });
   }
@@ -31,10 +31,6 @@ export class PluginRegistry {
   }
 
   static registerPlugin(config: PluginConfig, component) {
-    if (this.plugins.has(config.selector)) {
-      return;
-    }
-
     const pluginType = <PluginType>config;
     pluginType.component = component;
 
@@ -43,14 +39,14 @@ export class PluginRegistry {
   }
 
   static getPlugins(hostName: string) {
-    const records = Array.from(this.plugins.values()).filter(p =>
-      p.hostNames.find(name => name === hostName)
+    const records = Array.from(this.plugins.values()).filter((p) =>
+      p.hostNames.find((name) => name === hostName)
     );
-    const plugins = records.map(rec => {
+    const plugins = records.map((rec) => {
       return {
         selector: rec.selector,
         component: rec.component,
-        canRender: rec.canRender
+        canRender: rec.canRender,
       };
     });
 

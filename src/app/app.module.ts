@@ -10,7 +10,13 @@ import { MyPluginDataComponent } from './my-plugin-data/my-plugin-data.component
   declarations: [AppComponent, MyPluginComponent, MyPluginDataComponent],
   imports: [BrowserModule, NgxPluginsModule],
   entryComponents: [MyPluginComponent, MyPluginDataComponent],
-  providers: [],
+  providers: [
+    {
+      // Workaround for Ivy compiler not loading all components from entryComponents
+      provide: 'AppModulePlugins',
+      useValue: [MyPluginComponent, MyPluginDataComponent]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
