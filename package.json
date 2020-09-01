@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build ngx-plugins && cp README.md LICENSE dist/ngx-plugins",
+    "build": "ng build ngx-plugins --prod && cp README.md LICENSE dist/ngx-plugins",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
